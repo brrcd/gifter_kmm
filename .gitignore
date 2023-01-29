@@ -1,0 +1,14 @@
+*.iml
+.gradle
+.idea
+.DS_Store
+build
+captures
+.externalNativeBuild
+.cxx
+local.properties
+xcuserdata
+keystore.jks
+keystore.properties
+google_oauth.properties
+shared/src/commonMain/kotlin/com/gifter/app/util
