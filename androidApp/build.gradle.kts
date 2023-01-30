@@ -71,6 +71,7 @@ dependencies {
     
     implementation(Deps.Android.activityCompose)
     implementation(Deps.Android.googleAuthServices)
+    implementation(Deps.Android.composeNavigation)
     
     implementation(Deps.Kotlin.serialization)
     implementation(Deps.Coroutines.android)

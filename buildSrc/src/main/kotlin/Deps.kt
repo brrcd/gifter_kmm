@@ -2,6 +2,7 @@ object Deps {
 	private const val composeVersion = "1.3.1"
 	private const val kodeinVersion = "7.18.0"
 	private const val activityComposeVersion = "1.6.1"
+	private const val composeNavigationVersion = "2.5.3"
 	private const val coroutinesVersion = "1.6.4"
 	private const val ktorVersion = "2.2.2"
 	private const val kotlinSerializationVersion = "1.4.1"
@@ -12,6 +13,7 @@ object Deps {
 	object Android{
 		const val googleAuthServices = "com.google.android.gms:play-services-auth:$googleServicesVersion"
 		const val activityCompose = "androidx.activity:activity-compose:$activityComposeVersion"
+		const val composeNavigation = "androidx.navigation:navigation-compose:$composeNavigationVersion"
 		const val viewModel = "androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycleVersion"
 	}
 	

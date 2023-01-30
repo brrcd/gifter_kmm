@@ -5,6 +5,7 @@ import com.gifter.app.util.REMOTE_DATA_SOURCE_DI_MODULE
 import com.gifter.app.data.remote.HttpEngineFactory
 import com.gifter.app.data.remote.RemoteSource
 import com.gifter.app.data.remote.RemoteSourceImpl
+import com.gifter.app.util.JWT_TOKEN
 import io.ktor.client.HttpClient
 import io.ktor.client.plugins.DefaultRequest
 import io.ktor.client.plugins.HttpTimeout
@@ -15,6 +16,7 @@ import io.ktor.client.plugins.logging.Logger
 import io.ktor.client.plugins.logging.Logging
 import io.ktor.client.plugins.logging.SIMPLE
 import io.ktor.client.request.accept
+import io.ktor.client.request.bearerAuth
 import io.ktor.http.ContentType
 import io.ktor.http.contentType
 import io.ktor.serialization.kotlinx.json.json
@@ -51,6 +53,7 @@ class RemoteSourceModule: DIModule {
 					url(BACK_END_URL)
 					contentType(ContentType.Application.Json)
 					accept(ContentType.Application.Json)
+					bearerAuth(JWT_TOKEN)
 				}
 			}
 		}

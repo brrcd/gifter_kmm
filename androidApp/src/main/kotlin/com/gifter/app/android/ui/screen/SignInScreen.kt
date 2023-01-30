@@ -1,7 +1,8 @@
-package com.gifter.app.android.ui
+package com.gifter.app.android.ui.screen
 
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material.Button
@@ -9,12 +10,15 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import com.gifter.app.android.BuildConfig
 import com.gifter.app.android.MainActivity
-import com.gifter.app.android.R
+import com.gifter.app.android.findActivity
 import com.gifter.app.android.ui.components.CircularLoading
 import com.gifter.app.viewmodel.AuthViewModel
 import com.gifter.app.viewmodel.BaseViewModel
@@ -25,13 +29,13 @@ import com.google.android.gms.common.api.ApiException
 
 @Composable
 fun SignInScreen(
-	activity: MainActivity
-){
-	val viewModel = remember {
-		AuthViewModel()
-	}
+	onTokenSuccess: () -> Unit
+) {
+	
+	val viewModel = remember { AuthViewModel() }
 	val state by viewModel.state.collectAsState()
 	val jwtToken by viewModel.jwtToken.collectAsState()
+	val activity = LocalContext.current.findActivity()
 	
 	val googleSignInResult = rememberLauncherForActivityResult(
 		ActivityResultContracts.StartActivityForResult()
@@ -42,11 +46,11 @@ fun SignInScreen(
 				val account = task.getResult(ApiException::class.java)
 				val idToken = account.idToken ?: ""
 				viewModel.verifyIdToken(idToken)
-			} catch (e: ApiException){
+			} catch (e: ApiException) {
 				println("Exception at get google sing in result :\n" + e.message)
 			}
 		} else {
-			println("jiopa :" + result.resultCode)
+			println("result is not ok : " + result.resultCode)
 		}
 	}
 	
@@ -59,16 +63,24 @@ fun SignInScreen(
 		GoogleSignIn.getClient(activity, options)
 	}
 	
-	when (state){
+	when (state) {
 		BaseViewModel.State.LOADING -> {
 			CircularLoading()
 		}
 		BaseViewModel.State.NORMAL -> {
+			if (jwtToken.isNotEmpty()) onTokenSuccess.invoke()
 			Column(Modifier.fillMaxSize()) {
+				var expanded by remember { mutableStateOf(false) }
 				Button(onClick = { googleSignInResult.launch(googleSignInClient().signInIntent) }) {
 					Text(text = "Sign in with google")
 				}
-				Text(text = jwtToken, modifier = Modifier.align(Alignment.CenterHorizontally))
+				Text(
+					text = jwtToken,
+					modifier = Modifier
+						.align(Alignment.CenterHorizontally)
+						.clickable { expanded = !expanded },
+					maxLines = if (expanded) 10 else 1,
+				)
 			}
 		}
 		BaseViewModel.State.ERROR -> {

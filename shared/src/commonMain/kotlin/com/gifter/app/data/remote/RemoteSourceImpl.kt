@@ -1,9 +1,8 @@
 package com.gifter.app.data.remote
 
-import com.gifter.app.data.model.request.VerifyToken
 import com.gifter.app.data.model.response.JWT
+import com.gifter.app.data.model.response.User
 import io.ktor.client.HttpClient
-import io.ktor.client.call.receive
 import io.ktor.client.request.post
 import io.ktor.client.request.setBody
 
@@ -12,9 +11,17 @@ class RemoteSourceImpl(
 ) : RemoteSource {
 	
 	override suspend fun verifyGoogleIdToken(idToken: String): RequestResult<JWT> {
-		return client.processRequest<JWT> {
-			post("token") {
-				setBody(VerifyToken(idToken))
+		return client.processRequest {
+			post("auth") {
+				setBody(hashMapOf("idToken" to idToken))
+			}
+		}
+	}
+	
+	override suspend fun registerNewUser(name: String): RequestResult<User> {
+		return client.processRequest {
+			post("register") {
+				setBody(hashMapOf("name" to name))
 			}
 		}
 	}
