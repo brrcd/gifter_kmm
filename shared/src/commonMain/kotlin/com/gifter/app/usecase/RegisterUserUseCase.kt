@@ -7,4 +7,5 @@ import com.gifter.app.data.remote.RequestResult
 class RegisterUserUseCase(private val repository: Repository) {
 	
 	suspend operator fun invoke(name: String) : RequestResult<User> = repository.registerUser(name)
+	
 }

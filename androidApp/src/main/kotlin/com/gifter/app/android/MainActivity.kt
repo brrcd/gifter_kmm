@@ -4,43 +4,42 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
-import androidx.compose.material.Text
-import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
+import com.arkivanov.decompose.ComponentContext
+import com.arkivanov.decompose.defaultComponentContext
 import com.gifter.app.android.theme.Theme
-import com.gifter.app.android.ui.AppNavHost
-import com.gifter.app.android.ui.screen.SignInScreen
-import com.gifter.app.viewmodel.AuthViewModel
+import com.gifter.app.android.ui.screen.RootScreen
+import com.gifter.app.component.root.Root
+import com.gifter.app.component.root.RootComponent
 
 class MainActivity : ComponentActivity() {
 	
 	override fun onCreate(savedInstanceState: Bundle?) {
 		super.onCreate(savedInstanceState)
+		
+		val root = root(defaultComponentContext())
+		
 		setContent {
 			Theme {
 				Surface(
 					modifier = Modifier.fillMaxSize(),
 					color = MaterialTheme.colors.background
 				) {
-					AppNavHost(modifier = Modifier.fillMaxSize())
+					RootScreen(
+						component = root,
+						modifier = Modifier.padding(16.dp)
+					)
 				}
 			}
 		}
 	}
-}
-
-@Composable
-fun GreetingView(text: String) {
-	Text(text = text)
-}
-
-@Preview
-@Composable
-fun DefaultPreview() {
-	Theme {
-		GreetingView("Hello, Android!")
-	}
+	
+	private fun root(componentContext: ComponentContext): Root =
+		RootComponent(
+			componentContext = componentContext
+		)
 }

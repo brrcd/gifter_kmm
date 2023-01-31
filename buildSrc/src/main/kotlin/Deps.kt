@@ -9,6 +9,10 @@ object Deps {
 	private const val sqlDelightVersion = "2.0.0-alpha05"
 	private const val googleServicesVersion = "20.4.1"
 	private const val lifecycleVersion = "2.5.1"
+	private const val mviKotlinVersion = "3.1.0"
+	private const val decomposeVersion = "1.0.0-beta-04"
+	private const val essentyVersion = "0.10.0"
+	private const val settingsVersion = "1.0.0"
 	
 	object Android{
 		const val googleAuthServices = "com.google.android.gms:play-services-auth:$googleServicesVersion"
@@ -29,6 +33,16 @@ object Deps {
 		const val serialization = "org.jetbrains.kotlinx:kotlinx-serialization-json:$kotlinSerializationVersion"
 	}
 	
+	object MVIKotlin {
+		const val mviKotlin = "com.arkivanov.mvikotlin:mvikotlin:$mviKotlinVersion"
+		const val mviKotlinMain = "com.arkivanov.mvikotlin:mvikotlin-main:$mviKotlinVersion"
+	}
+	
+	object Decompose {
+		const val decompose = "com.arkivanov.decompose:decompose:$decomposeVersion"
+		const val extensionCompose = "com.arkivanov.decompose:extensions-compose-jetbrains:$decomposeVersion"
+	}
+	
 	object Coroutines {
 		const val android = "org.jetbrains.kotlinx:kotlinx-coroutines-android:$coroutinesVersion"
 		const val core = "org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutinesVersion"
@@ -37,6 +51,15 @@ object Deps {
 	object Kodein {
 		const val android = "org.kodein.di:kodein-di-framework-android-x:$kodeinVersion"
 		const val core = "org.kodein.di:kodein-di:$kodeinVersion"
+	}
+	
+	object Essenty {
+		const val core = "com.arkivanov.essenty:lifecycle:$essentyVersion"
+	}
+	
+	object Settings {
+		const val core = "com.russhwolf:multiplatform-settings:$settingsVersion"
+		const val noArgs = "com.russhwolf:multiplatform-settings-no-arg:$settingsVersion"
 	}
 	
 	object Ktor {

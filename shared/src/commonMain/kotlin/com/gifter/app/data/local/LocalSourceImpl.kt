@@ -1,7 +1,11 @@
 package com.gifter.app.data.local
 
 import com.gifter.app.AppDatabase
+import com.gifter.app.settings.DeviceSettings
 
-class LocalSourceImpl(private val database: AppDatabase) : LocalSource {
+class LocalSourceImpl(
+	private val database: AppDatabase,
+	private val settings: DeviceSettings
+	) : LocalSource {
 
 }

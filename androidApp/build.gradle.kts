@@ -73,6 +73,14 @@ dependencies {
     implementation(Deps.Android.googleAuthServices)
     implementation(Deps.Android.composeNavigation)
     
+    implementation(Deps.MVIKotlin.mviKotlin)
+    implementation(Deps.MVIKotlin.mviKotlinMain)
+    
+    implementation(Deps.Decompose.decompose)
+    implementation(Deps.Decompose.extensionCompose)
+    
+    implementation(Deps.Essenty.core)
+    
     implementation(Deps.Kotlin.serialization)
     implementation(Deps.Coroutines.android)
     

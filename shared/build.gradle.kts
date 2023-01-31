@@ -2,6 +2,7 @@ plugins {
     kotlin("multiplatform")
     kotlin("plugin.serialization")
     id("com.android.library")
+    id("kotlin-parcelize")
     id("app.cash.sqldelight")
 }
 
@@ -32,6 +33,10 @@ kotlin {
                 implementation(Deps.Coroutines.core)
                 implementation(Deps.Kodein.core)
                 implementation(Deps.SqlDelight.core)
+                implementation(Deps.MVIKotlin.mviKotlin)
+                implementation(Deps.Decompose.decompose)
+                implementation(Deps.Settings.core)
+                implementation(Deps.Settings.noArgs)
             }
         }
         val androidMain by getting {
@@ -39,6 +44,9 @@ kotlin {
                 implementation(Deps.Ktor.clientOkHttp)
                 implementation(Deps.SqlDelight.androidDriver)
                 implementation(Deps.Android.viewModel)
+                implementation(Deps.MVIKotlin.mviKotlin)
+                implementation(Deps.Decompose.decompose)
+                implementation(Deps.Essenty.core)
             }
         }
         val iosMain by creating {
@@ -51,22 +59,22 @@ kotlin {
                 implementation(Deps.SqlDelight.nativeDriver)
             }
         }
-        val commonTest by getting {
-            dependencies {
-                implementation(kotlin("test"))
-            }
-        }
+//        val commonTest by getting {
+//            dependencies {
+//                implementation(kotlin("test"))
+//            }
+//        }
         // says there is no such source set, could be a bug, test later
 //        val androidTest by getting
-        val iosX64Test by getting
-        val iosArm64Test by getting
-        val iosSimulatorArm64Test by getting
-        val iosTest by creating {
-            dependsOn(commonTest)
-            iosX64Test.dependsOn(this)
-            iosArm64Test.dependsOn(this)
-            iosSimulatorArm64Test.dependsOn(this)
-        }
+//        val iosX64Test by getting
+//        val iosArm64Test by getting
+//        val iosSimulatorArm64Test by getting
+//        val iosTest by creating {
+//            dependsOn(commonTest)
+//            iosX64Test.dependsOn(this)
+//            iosArm64Test.dependsOn(this)
+//            iosSimulatorArm64Test.dependsOn(this)
+//        }
     }
 }
 
