@@ -2,10 +2,14 @@ package com.gifter.app.android.ui.screen
 
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material.Button
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -28,7 +32,6 @@ fun SignInScreen(
 ) {
 	
 	val activity = LocalContext.current.findActivity()
-	var text by remember { mutableStateOf("") }
 	
 	val googleSignInResult = rememberLauncherForActivityResult(
 		ActivityResultContracts.StartActivityForResult()
@@ -38,12 +41,12 @@ fun SignInScreen(
 			try {
 				val account = task.getResult(ApiException::class.java)
 				val idToken = account.idToken ?: ""
-				text = idToken
+				component.verifyToken(idToken)
 			} catch (e: ApiException) {
 				println("Exception at get google sing in result :\n" + e.message)
 			}
 		} else {
-			println("result is not ok : " + result.resultCode)
+			println("Result is not ok : " + result.resultCode)
 		}
 	}
 	
@@ -55,13 +58,17 @@ fun SignInScreen(
 			.build()
 		GoogleSignIn.getClient(activity, options)
 	}
-	Box() {
+	
+	Column(
+		modifier = Modifier.fillMaxSize(),
+		verticalArrangement = Arrangement.Center
+	) {
+		
 		Button(
 			onClick = { googleSignInResult.launch(googleSignInClient().signInIntent) },
-			modifier = Modifier.align(Alignment.Center)
+			modifier = Modifier.align(Alignment.CenterHorizontally),
 		) {
 			Text(text = "Sign in with google")
 		}
-		Text(text = text)
 	}
 }

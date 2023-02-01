@@ -64,6 +64,7 @@ object Deps {
 	
 	object Ktor {
 		const val clientCore = "io.ktor:ktor-client-core:$ktorVersion"
+		const val clientAuth = "io.ktor:ktor-client-auth:$ktorVersion"
 		const val clientOkHttp = "io.ktor:ktor-client-okhttp:$ktorVersion"
 		const val clientDarwin = "io.ktor:ktor-client-darwin:$ktorVersion"
 		const val clientContentNegotiation = "io.ktor:ktor-client-content-negotiation:$ktorVersion"

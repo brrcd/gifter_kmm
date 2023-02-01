@@ -13,7 +13,10 @@ fun RootScreen(
 	modifier: Modifier
 ) {
 	
-	Children(stack = component.childStack) {
+	Children(
+		stack = component.childStack,
+		modifier = modifier
+	) {
 		when (val child = it.instance) {
 			is Root.Child.Main -> MainScreen(component = child.component)
 			is Root.Child.SignIn -> SignInScreen(component = child.component)

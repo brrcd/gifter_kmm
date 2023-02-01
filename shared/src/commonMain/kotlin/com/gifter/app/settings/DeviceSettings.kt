@@ -8,10 +8,10 @@ class DeviceSettings(factory: Settings.Factory) {
 	
 	private val settings = factory.create()
 	
-	var authToken: String get() = run { settings[AUTH_TOKEN] ?: "" }
-	set(value) = run { settings[AUTH_TOKEN] = value }
+	var jwt: String get() { return settings[JWT] ?: "" }
+	set(value) { settings[JWT] = value }
 	
 	companion object {
-		private const val AUTH_TOKEN = "auth_token"
+		private const val JWT = "auth_token"
 	}
 }

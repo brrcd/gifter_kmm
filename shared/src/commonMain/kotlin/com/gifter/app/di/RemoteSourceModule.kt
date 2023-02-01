@@ -5,7 +5,7 @@ import com.gifter.app.util.REMOTE_DATA_SOURCE_DI_MODULE
 import com.gifter.app.data.remote.HttpEngineFactory
 import com.gifter.app.data.remote.RemoteSource
 import com.gifter.app.data.remote.RemoteSourceImpl
-import com.gifter.app.util.JWT_TOKEN
+import com.gifter.app.settings.DeviceSettings
 import io.ktor.client.HttpClient
 import io.ktor.client.plugins.DefaultRequest
 import io.ktor.client.plugins.HttpTimeout
@@ -30,6 +30,7 @@ class RemoteSourceModule: DIModule {
 	override val module = DI.Module(name = REMOTE_DATA_SOURCE_DI_MODULE) {
 		bind<HttpClient>() with singleton {
 			HttpClient(HttpEngineFactory().create()) {
+				expectSuccess = true
 				install(Logging) {
 					logger = Logger.SIMPLE
 					level = LogLevel.ALL
@@ -53,7 +54,7 @@ class RemoteSourceModule: DIModule {
 					url(BACK_END_URL)
 					contentType(ContentType.Application.Json)
 					accept(ContentType.Application.Json)
-					bearerAuth(JWT_TOKEN)
+					bearerAuth(instance<DeviceSettings>().jwt)
 				}
 			}
 		}

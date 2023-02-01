@@ -28,6 +28,7 @@ kotlin {
                 implementation(Deps.Ktor.clientCore)
                 implementation(Deps.Ktor.clientContentNegotiation)
                 implementation(Deps.Ktor.kotlin_json)
+                implementation(Deps.Ktor.clientAuth)
                 implementation(Deps.Ktor.clientLogging)
                 implementation(Deps.Kotlin.serialization)
                 implementation(Deps.Coroutines.core)

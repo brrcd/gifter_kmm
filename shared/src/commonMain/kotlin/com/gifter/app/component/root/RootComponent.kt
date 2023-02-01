@@ -1,29 +1,28 @@
 package com.gifter.app.component.root
 
 import com.arkivanov.decompose.ComponentContext
-import com.arkivanov.decompose.childContext
 import com.arkivanov.decompose.router.stack.ChildStack
 import com.arkivanov.decompose.router.stack.StackNavigation
 import com.arkivanov.decompose.router.stack.childStack
-import com.arkivanov.decompose.router.stack.navigate
-import com.arkivanov.decompose.router.stack.push
 import com.arkivanov.decompose.value.Value
-import com.arkivanov.essenty.lifecycle.Lifecycle
-import com.arkivanov.essenty.lifecycle.LifecycleOwner
-import com.arkivanov.essenty.lifecycle.doOnDestroy
 import com.arkivanov.essenty.parcelable.Parcelable
 import com.arkivanov.essenty.parcelable.Parcelize
-import com.gifter.app.component.coroutineScope
 import com.gifter.app.component.signin.SignInComponent
 import com.gifter.app.component.main.MainComponent
 import com.gifter.app.component.root.Root.Child
+import com.gifter.app.data.Repository
 import com.gifter.app.di.PlatformModule
+import com.gifter.app.di.PlatformModule.instance
 import com.gifter.app.settings.DeviceSettings
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.SupervisorJob
-import kotlinx.coroutines.cancel
-import kotlin.coroutines.CoroutineContext
+import io.ktor.client.HttpClient
+import io.ktor.client.plugins.auth.Auth
+import io.ktor.client.plugins.auth.providers.BearerAuthConfig
+import io.ktor.client.plugins.auth.providers.BearerTokens
+import io.ktor.client.plugins.auth.providers.bearer
+import io.ktor.client.plugins.defaultRequest
+import io.ktor.client.request.bearerAuth
+import org.kodein.di.DI
+import org.kodein.di.DIAware
 
 class RootComponent constructor(
 	componentContext: ComponentContext,
@@ -49,28 +48,19 @@ class RootComponent constructor(
 	
 	private val navigation = StackNavigation<Configuration>()
 	
-	private val scope = coroutineScope(Dispatchers.Main + SupervisorJob())
+	private val repository = instance<Repository>()
+	
+	private val authToken: String = repository.getJWT()
 	
 	private val stack = childStack(
 		source = navigation,
-		initialConfiguration = Configuration.SignIn,
+		initialConfiguration = if (authToken.isNotEmpty()) Configuration.SignIn
+		else Configuration.Main,
 		handleBackButton = true,
 		childFactory = ::createChild
 	)
 	
 	override val childStack: Value<ChildStack<*, Child>> = stack
-	
-	private val settings = PlatformModule.instance<DeviceSettings>()
-	
-	private val authToken: String = settings.authToken
-	
-	init {
-		if (authToken.isEmpty()) {
-			navigation.push(Configuration.Main)
-		} else {
-			navigation.push(Configuration.SignIn)
-		}
-	}
 	
 	private fun createChild(
 		configuration: Configuration,
