@@ -56,7 +56,8 @@ class RootComponent constructor(
 			)
 			is Configuration.Registration -> Child.Registration(
 				RegistrationComponent(
-					componentContext = componentContext
+					componentContext = componentContext,
+					navigateMain = ::navigateMain
 				)
 			)
 		}

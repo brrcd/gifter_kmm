@@ -1,7 +1,9 @@
 package com.gifter.app.android.ui.screen
 
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.material.Button
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -13,7 +15,11 @@ fun MainScreen(
 	component: MainComponent,
 	modifier: Modifier = Modifier
 ) {
-	Box(modifier = Modifier.fillMaxSize()) {
-		Text(text = "Main screen", modifier = Modifier.align(Alignment.Center))
+	
+	Column() {
+		Text(text = "Main screen")
+		Button(onClick = { component.clearJWT() }) {
+			Text(text = "Clear token")
+		}
 	}
 }

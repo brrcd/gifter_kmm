@@ -6,4 +6,5 @@ import com.gifter.app.data.model.response.User
 interface RemoteSource {
 	suspend fun verifyGoogleIdToken(idToken: String): RequestResult<JWT>
 	suspend fun registerNewUser(name: String): RequestResult<User>
+	suspend fun getUser(): RequestResult<User>
 }

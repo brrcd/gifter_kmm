@@ -23,5 +23,14 @@ class RepositoryImpl(
 		return remoteSource.registerNewUser(name)
 	}
 	
+	override suspend fun getUser(): RequestResult<User> {
+		return remoteSource.getUser()
+	}
+	
 	override fun getJWT(): String = localSource.getJWT()
+	
+	// TODO REMOVE
+	override fun removeJWT() {
+		localSource.removeJWT()
+	}
 }

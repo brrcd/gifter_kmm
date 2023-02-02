@@ -32,8 +32,8 @@ import kotlin.coroutines.CoroutineContext
 
 class SignInComponent(
 	componentContext: ComponentContext,
-	val navigateRegistration: () -> Unit,
-	val navigateMain: () -> Unit
+	private val navigateRegistration: () -> Unit,
+	private val navigateMain: () -> Unit
 ) : BaseComponent(), ComponentContext by componentContext {
 	
 	override val scope = coroutineScope(Dispatchers.Default + SupervisorJob())
