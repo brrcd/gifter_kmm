@@ -7,3 +7,4 @@
 <br/>Persistent storage - SQLDelight, KMM Settings
 <br/>Network - Ktor
 <br/>Async - Kotlin Coroutines
+<br/>Active branch - decompose
