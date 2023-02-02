@@ -9,6 +9,7 @@ import com.arkivanov.decompose.router.stack.push
 import com.arkivanov.decompose.value.Value
 import com.arkivanov.essenty.parcelable.Parcelable
 import com.arkivanov.essenty.parcelable.Parcelize
+import com.gifter.app.component.BaseComponent
 import com.gifter.app.component.coroutineScope
 import com.gifter.app.component.registration.RegistrationComponent
 import com.gifter.app.data.Repository
@@ -31,58 +32,21 @@ import kotlin.coroutines.CoroutineContext
 
 class SignInComponent(
 	componentContext: ComponentContext,
-	private val registrationComponent: (ComponentContext) -> RegistrationComponent
-) : SignIn, ComponentContext by componentContext {
+	val navigateRegistration: () -> Unit,
+	val navigateMain: () -> Unit
+) : BaseComponent(), ComponentContext by componentContext {
 	
-	constructor(
-		componentContext: ComponentContext
-	) : this(
-		componentContext = componentContext,
-		registrationComponent = { childContext ->
-			RegistrationComponent(
-				componentContext = childContext
-			)
-		}
-	)
-	
-	private val scope = coroutineScope(Dispatchers.Default + SupervisorJob())
-	
-	private val navigation = StackNavigation<Configuration>()
+	override val scope = coroutineScope(Dispatchers.Default + SupervisorJob())
 	
 	private val repository: Repository = PlatformModule.instance()
 	
 	fun verifyToken(token: String) {
-		scope.launch {
-			when (val result = repository.verifyGoogleIdToken(token)) {
-				is RequestResult.Success -> {
-					repository.registerUser("name")
-//					navigation.push(Configuration.Registration)
-				}
-				is RequestResult.Error -> {
-					println("${result.error.errorCode} ${result.error.errorMessage}")
-				}
-			}
-		}
-	}
-	
-	private val stack = childStack(
-		source = navigation,
-		initialConfiguration = Configuration.Registration,
-		handleBackButton = true,
-		childFactory = ::createChild
-	)
-	
-	override val childStack: Value<ChildStack<*, SignIn.Child>> = stack
-	
-	private fun createChild(
-		configuration: Configuration,
-		componentContext: ComponentContext
-	): SignIn.Child = SignIn.Child.Registration(
-		registrationComponent(componentContext)
-	)
-	
-	private sealed class Configuration : Parcelable {
-		@Parcelize
-		object Registration : Configuration()
+		apiCall(
+			{ repository.verifyGoogleIdToken(token) },
+			{
+				println(it.data.token)
+				navigateRegistration.invoke()
+			},
+			{ println(it.error.errorMessage) })
 	}
 }

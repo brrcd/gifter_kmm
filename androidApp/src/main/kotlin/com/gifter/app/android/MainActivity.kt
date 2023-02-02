@@ -31,7 +31,6 @@ class MainActivity : ComponentActivity() {
 				) {
 					RootScreen(
 						component = root,
-						modifier = Modifier.padding(16.dp)
 					)
 				}
 			}

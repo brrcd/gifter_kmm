@@ -86,4 +86,5 @@ dependencies {
     
     implementation(Deps.Kodein.android)
     implementation(Deps.Kodein.core)
+	implementation("androidx.core:core-ktx:+")
 }

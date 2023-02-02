@@ -5,12 +5,13 @@ import androidx.compose.ui.Modifier
 import com.arkivanov.decompose.ExperimentalDecomposeApi
 import com.arkivanov.decompose.extensions.compose.jetbrains.stack.Children
 import com.gifter.app.component.root.Root
+import com.gifter.app.component.root.Root.Child
 
 @OptIn(ExperimentalDecomposeApi::class)
 @Composable
 fun RootScreen(
 	component: Root,
-	modifier: Modifier
+	modifier: Modifier = Modifier
 ) {
 	
 	Children(
@@ -18,8 +19,9 @@ fun RootScreen(
 		modifier = modifier
 	) {
 		when (val child = it.instance) {
-			is Root.Child.Main -> MainScreen(component = child.component)
-			is Root.Child.SignIn -> SignInScreen(component = child.component)
+			is Child.Main -> MainScreen(component = child.component)
+			is Child.SignIn -> SignInScreen(component = child.component)
+			is Child.Registration -> RegistrationScreen(component = child.component)
 		}
 	}
 }
