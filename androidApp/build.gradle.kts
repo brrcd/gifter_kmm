@@ -29,7 +29,7 @@ android {
         val gOauthProps = File (rootDir, "google_oauth.properties").inputStream().use {
             Properties().apply { load(it) }
         }
-        buildConfigField("String", "SERVER_CLIENT_ID", gOauthProps.getValue("server_client_id") as String)
+        buildConfigField("String", "OAUTH_CLIENT_ID", gOauthProps.getValue("oauth_client_id") as String)
     }
     buildFeatures {
         compose = true

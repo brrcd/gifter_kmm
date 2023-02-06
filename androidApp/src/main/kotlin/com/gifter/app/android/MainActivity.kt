@@ -26,11 +26,11 @@ class MainActivity : ComponentActivity() {
 		setContent {
 			Theme {
 				Surface(
-					modifier = Modifier.fillMaxSize(),
 					color = MaterialTheme.colors.background
 				) {
 					RootScreen(
 						component = root,
+						modifier = Modifier.fillMaxSize()
 					)
 				}
 			}

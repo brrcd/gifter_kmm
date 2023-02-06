@@ -1,29 +1,24 @@
 package com.gifter.app.android.ui.screen
 
+import android.content.IntentSender
 import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.IntentSenderRequest
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material.Button
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import com.gifter.app.android.BuildConfig
 import com.gifter.app.android.findActivity
 import com.gifter.app.component.signin.SignInComponent
-import com.google.android.gms.auth.api.signin.GoogleSignIn
-import com.google.android.gms.auth.api.signin.GoogleSignInClient
-import com.google.android.gms.auth.api.signin.GoogleSignInOptions
-import com.google.android.gms.common.api.ApiException
+import com.google.android.gms.auth.api.identity.BeginSignInRequest
+import com.google.android.gms.auth.api.identity.Identity
+import com.google.android.gms.auth.api.identity.SignInClient
 
 @Composable
 fun SignInScreen(
@@ -31,41 +26,61 @@ fun SignInScreen(
 	modifier: Modifier = Modifier
 ) {
 	
+	var oneTapClient: SignInClient
+	var signInRequest: BeginSignInRequest
+	
 	val activity = LocalContext.current.findActivity()
 	
 	val googleSignInResult = rememberLauncherForActivityResult(
-		ActivityResultContracts.StartActivityForResult()
+		ActivityResultContracts.StartIntentSenderForResult()
 	) { result ->
-		if (result.resultCode == -1) {
-			val task = GoogleSignIn.getSignedInAccountFromIntent(result.data)
-			try {
-				val account = task.getResult(ApiException::class.java)
-				val idToken = account.idToken ?: ""
-				component.verifyToken(idToken)
-			} catch (e: ApiException) {
-				println("Exception at get google sing in result :\n" + e.message)
-			}
-		} else {
-			println("Result is not ok : " + result.resultCode)
+		// todo handle result not ok, cancel sign in
+		oneTapClient = Identity.getSignInClient(activity)
+		val credential = oneTapClient.getSignInCredentialFromIntent(result.data)
+		val idToken = credential.googleIdToken
+		if (idToken != null) {
+			component.verifyToken(idToken)
 		}
-	}
-	
-	val googleSignInClient: () -> GoogleSignInClient = {
-		val serverClientId = BuildConfig.SERVER_CLIENT_ID
-		val options = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-			.requestIdToken(serverClientId)
-			.requestEmail()
-			.build()
-		GoogleSignIn.getClient(activity, options)
 	}
 	
 	Column(
 		modifier = Modifier.fillMaxSize(),
 		verticalArrangement = Arrangement.Center
 	) {
+		oneTapClient = Identity.getSignInClient(activity)
+		fun beginSignIn(signInRequest: BeginSignInRequest) {
+			oneTapClient.beginSignIn(signInRequest)
+				.addOnSuccessListener(activity) { result ->
+					try {
+						googleSignInResult.launch(
+							IntentSenderRequest.Builder(result.pendingIntent).build()
+						)
+					} catch (e: IntentSender.SendIntentException) {
+						println()
+					}
+				}
+				.addOnFailureListener(activity) { e ->
+					println("one tap begin sign in exception: " + e.message)
+				}
+		}
+		signInRequest = BeginSignInRequest.builder()
+			.setPasswordRequestOptions(
+				BeginSignInRequest.PasswordRequestOptions.builder()
+					.setSupported(true)
+					.build()
+			)
+			.setGoogleIdTokenRequestOptions(
+				BeginSignInRequest.GoogleIdTokenRequestOptions.builder()
+					.setSupported(true)
+					.setServerClientId(BuildConfig.OAUTH_CLIENT_ID)
+					.setFilterByAuthorizedAccounts(true)
+					.build()
+			)
+			.setAutoSelectEnabled(true)
+			.build()
 		
 		Button(
-			onClick = { googleSignInResult.launch(googleSignInClient().signInIntent) },
+			onClick = { beginSignIn(signInRequest) },
 			modifier = Modifier.align(Alignment.CenterHorizontally),
 		) {
 			Text(text = "Sign in with google")

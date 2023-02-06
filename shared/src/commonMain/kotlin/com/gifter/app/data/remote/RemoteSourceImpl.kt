@@ -19,10 +19,10 @@ class RemoteSourceImpl(
 		}
 	}
 	
-	override suspend fun registerNewUser(name: String): RequestResult<User> {
+	override suspend fun registerNewUser(id: String, name: String): RequestResult<User> {
 		return client.processRequest {
 			post("register") {
-				setBody(hashMapOf("name" to name))
+				setBody(hashMapOf("id" to id,"name" to name))
 			}
 		}
 	}

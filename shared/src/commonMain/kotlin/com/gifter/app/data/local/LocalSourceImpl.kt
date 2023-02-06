@@ -14,6 +14,10 @@ class LocalSourceImpl(
 		settings.jwt = token
 	}
 	
+	override fun clearSettings() {
+		settings.clear()
+	}
+	
 	//TODO REMOVE
 	override fun removeJWT() {
 		settings.jwt = ""

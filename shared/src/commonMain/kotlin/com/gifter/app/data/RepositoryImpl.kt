@@ -19,8 +19,8 @@ class RepositoryImpl(
 		return result
 	}
 	
-	override suspend fun registerUser(name: String): RequestResult<User> {
-		return remoteSource.registerNewUser(name)
+	override suspend fun registerUser(id: String, name: String): RequestResult<User> {
+		return remoteSource.registerNewUser(id, name)
 	}
 	
 	override suspend fun getUser(): RequestResult<User> {
@@ -28,6 +28,8 @@ class RepositoryImpl(
 	}
 	
 	override fun getJWT(): String = localSource.getJWT()
+	
+	override fun clearSettings() = localSource.clearSettings()
 	
 	// TODO REMOVE
 	override fun removeJWT() {

@@ -11,6 +11,8 @@ class DeviceSettings(factory: Settings.Factory) {
 	var jwt: String get() { return settings[JWT] ?: "" }
 	set(value) { settings[JWT] = value }
 	
+	fun clear() = settings.clear()
+	
 	companion object {
 		private const val JWT = "auth_token"
 	}

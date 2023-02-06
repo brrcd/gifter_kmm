@@ -1,52 +1,59 @@
 package com.gifter.app.component.signin
 
 import com.arkivanov.decompose.ComponentContext
-import com.arkivanov.decompose.childContext
-import com.arkivanov.decompose.router.stack.ChildStack
-import com.arkivanov.decompose.router.stack.StackNavigation
-import com.arkivanov.decompose.router.stack.childStack
-import com.arkivanov.decompose.router.stack.push
-import com.arkivanov.decompose.value.Value
-import com.arkivanov.essenty.parcelable.Parcelable
-import com.arkivanov.essenty.parcelable.Parcelize
-import com.gifter.app.component.BaseComponent
+import com.gifter.app.component.BaseChildComponent
+import com.gifter.app.component.BaseNavigation
 import com.gifter.app.component.coroutineScope
-import com.gifter.app.component.registration.RegistrationComponent
 import com.gifter.app.data.Repository
 import com.gifter.app.data.remote.RequestResult
 import com.gifter.app.di.PlatformModule
-import io.ktor.client.HttpClient
-import io.ktor.client.plugins.DefaultRequest
-import io.ktor.client.plugins.auth.Auth
-import io.ktor.client.plugins.auth.providers.BearerTokens
-import io.ktor.client.plugins.auth.providers.bearer
-import io.ktor.client.plugins.defaultRequest
-import io.ktor.client.request.bearerAuth
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.SupervisorJob
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
+import com.gifter.app.di.PlatformModule.instance
+import com.gifter.app.runOnMain
 import kotlinx.coroutines.launch
-import org.kodein.di.DI
-import kotlin.coroutines.CoroutineContext
+import kotlinx.coroutines.withContext
 
 class SignInComponent(
 	componentContext: ComponentContext,
-	private val navigateRegistration: () -> Unit,
-	private val navigateMain: () -> Unit
-) : BaseComponent(), ComponentContext by componentContext {
+	override val navigation: SignInNavigation,
+	override val onError: (RequestResult.Error) -> Unit,
+	override val onLoading: (Boolean) -> Unit
+) : BaseChildComponent(), ComponentContext by componentContext {
 	
-	override val scope = coroutineScope(Dispatchers.Default + SupervisorJob())
-	
-	private val repository: Repository = PlatformModule.instance()
+	private val scope = coroutineScope()
+	private val repository = instance<Repository>()
 	
 	fun verifyToken(token: String) {
-		apiCall(
-			{ repository.verifyGoogleIdToken(token) },
-			{
-				println(it.data.token)
-				navigateRegistration.invoke()
-			},
-			{ println(it.error.errorMessage) })
+		scope.launch {
+			when (val result = repository.verifyGoogleIdToken(token)){
+				is RequestResult.Success -> {
+					getUser()
+				}
+				is RequestResult.Error -> {
+					displayError(result)
+				}
+			}
+		}
+	}
+	
+	private fun getUser() {
+		scope.launch {
+			showLoading()
+			val result = repository.getUser()
+			hideLoading()
+			when (result){
+				is RequestResult.Success -> {
+					runOnMain {
+//						if (result.data.isRegistrationComplete) {
+//							navigation.navigateMain()
+//						} else {
+							navigation.navigateRegistration()
+//						}
+					}
+				}
+				is RequestResult.Error -> {
+					displayError(result)
+				}
+			}
+		}
 	}
 }

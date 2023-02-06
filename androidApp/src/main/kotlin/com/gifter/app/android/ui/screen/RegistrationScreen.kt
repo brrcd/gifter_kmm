@@ -1,11 +1,9 @@
 package com.gifter.app.android.ui.screen
 
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.Button
 import androidx.compose.material.Text
 import androidx.compose.material.TextField
@@ -17,7 +15,6 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import com.arkivanov.decompose.extensions.compose.jetbrains.stack.Children
 import com.gifter.app.component.registration.RegistrationComponent
 
 @Composable
@@ -27,16 +24,28 @@ fun RegistrationScreen(
 ) {
 	
 	var name by remember { mutableStateOf("") }
+	var id by remember { mutableStateOf("") }
 	
 	Column(
-		modifier = Modifier.fillMaxSize()
+		modifier = Modifier
+			.fillMaxSize()
 			.padding(16.dp),
 		verticalArrangement = Arrangement.Center,
 		horizontalAlignment = Alignment.CenterHorizontally
 	) {
-		Text(text = "Enter your name")
-		TextField(value = name, onValueChange = { name = it })
-		Button(onClick = { component.registerUser(name) }) {
+		Text(
+			text = "Enter your name"
+		)
+		TextField(
+			value = name, onValueChange = { name = it })
+		Text(
+			text = "Enter your identifier"
+		)
+		TextField(
+			value = id, onValueChange = { id = it }
+		)
+		Button(
+			onClick = { component.registerUser(id, name) }) {
 			Text(text = "Register")
 		}
 	}

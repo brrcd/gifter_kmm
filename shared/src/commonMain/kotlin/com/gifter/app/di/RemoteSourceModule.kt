@@ -30,7 +30,6 @@ class RemoteSourceModule: DIModule {
 	override val module = DI.Module(name = REMOTE_DATA_SOURCE_DI_MODULE) {
 		bind<HttpClient>() with singleton {
 			HttpClient(HttpEngineFactory().create()) {
-				expectSuccess = true
 				install(Logging) {
 					logger = Logger.SIMPLE
 					level = LogLevel.ALL
@@ -38,6 +37,7 @@ class RemoteSourceModule: DIModule {
 				install(ContentNegotiation) {
 					json(
 						json = Json {
+							expectSuccess = true
 							isLenient = true
 							ignoreUnknownKeys = true
 							prettyPrint = true
