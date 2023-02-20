@@ -28,6 +28,7 @@ fun HomeScreen(
 	component: HomeComponent,
 	modifier: Modifier = Modifier
 ) {
+	val user = component.user.subscribeAsState()
 	
 	Column(
 		modifier = Modifier
@@ -36,6 +37,7 @@ fun HomeScreen(
 		verticalArrangement = Arrangement.Center,
 		horizontalAlignment = Alignment.CenterHorizontally
 	) {
+		Text(text = user.value.name)
 		Text(text = "Home screen")
 		Button(onClick = { component.clearJWT() }) {
 			Text(text = "Clear token")

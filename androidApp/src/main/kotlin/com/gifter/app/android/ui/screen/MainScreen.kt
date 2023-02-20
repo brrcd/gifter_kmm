@@ -9,6 +9,7 @@ import androidx.compose.material.Icon
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.Settings
+import androidx.compose.material.icons.filled.ShoppingCart
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
@@ -43,6 +44,10 @@ fun MainScreen(
 					component = child.component,
 					modifier = Modifier.fillMaxSize()
 				)
+				is Main.Child.Wish -> WishScreen(
+					component = child.component,
+					modifier = Modifier.fillMaxSize()
+				)
 			}
 		}
 		BottomNavigation(
@@ -56,6 +61,15 @@ fun MainScreen(
 					Icon(
 						imageVector = Icons.Default.Home,
 						contentDescription = "Home screen"
+					)
+				})
+			BottomNavigationItem(selected = activeComponent is Main.Child.Wish, onClick = {
+				component.onWishTabSelected()
+			},
+				icon = {
+					Icon(
+						imageVector = Icons.Default.ShoppingCart,
+						contentDescription = "Wish screen"
 					)
 				})
 			BottomNavigationItem(selected = activeComponent is Main.Child.Profile, onClick = {

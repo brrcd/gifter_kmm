@@ -8,10 +8,18 @@ class LocalSourceImpl(
 	private val settings: DeviceSettings
 	) : LocalSource {
 	
-	override fun getJWT(): String = settings.jwt
+	override fun getAuthToken(): String = settings.authToken
 	
-	override fun setJWT(token: String) {
-		settings.jwt = token
+	override fun setAuthToken(token: String) {
+		settings.authToken = token
+		settings.clearRegistrationToken()
+	}
+	
+	override fun getRegistrationToken(): String = settings.registrationToken
+	
+	override fun setRegistrationToken(token: String) {
+		settings.registrationToken = token
+		settings.clearAuthToken()
 	}
 	
 	override fun clearSettings() {
@@ -19,7 +27,7 @@ class LocalSourceImpl(
 	}
 	
 	//TODO REMOVE
-	override fun removeJWT() {
-		settings.jwt = ""
+	override fun removeAuthToken() {
+		settings.authToken = ""
 	}
 }

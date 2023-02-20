@@ -8,19 +8,27 @@ import com.arkivanov.decompose.router.stack.childStack
 import com.arkivanov.decompose.value.Value
 import com.arkivanov.essenty.parcelable.Parcelable
 import com.arkivanov.essenty.parcelable.Parcelize
+import com.gifter.app.component.BaseParentComponentImpl
+import com.gifter.app.component.coroutineScope
 import com.gifter.app.component.home.HomeComponent
 import com.gifter.app.component.home.HomeNavigation
 import com.gifter.app.component.profile.ProfileComponent
 import com.gifter.app.component.root.Root
+import com.gifter.app.component.wish.WishComponent
+import com.gifter.app.component.wish.WishNavigation
 import com.gifter.app.data.Repository
-import com.gifter.app.di.PlatformModule.instance
+import com.gifter.app.di.PlatformModule.diInstance
+import com.gifter.app.runOnMain
+import kotlinx.coroutines.launch
 
 class MainComponent(componentContext: ComponentContext, val rootComponent: Root) : Main,
-	ComponentContext by componentContext {
+	BaseParentComponentImpl(componentContext) {
 	
 	private val navigation = StackNavigation<MainConfig>()
 	
-	private val repository = instance<Repository>()
+	private val repository = diInstance<Repository>()
+	
+	private val scope = coroutineScope()
 	
 	private val stack = childStack(
 		source = navigation,
@@ -41,7 +49,9 @@ class MainComponent(componentContext: ComponentContext, val rootComponent: Root)
 					componentContext = componentContext,
 					navigation = HomeNavigation(
 						navigateRegistration = { rootComponent.navigateRegistration() }
-					)
+					),
+					onError = ::onError,
+					onLoading = ::onLoading
 				)
 			)
 			is MainConfig.Profile -> Main.Child.Profile(
@@ -49,14 +59,40 @@ class MainComponent(componentContext: ComponentContext, val rootComponent: Root)
 					componentContext = componentContext
 				)
 			)
+			is MainConfig.Wish -> Main.Child.Wish(
+				WishComponent(
+					componentContext = componentContext,
+					navigation = WishNavigation(
+					
+					),
+					onError = ::onError,
+					onLoading = ::onLoading
+				)
+			)
 		}
 	
 	override fun onHomeTabSelected() {
-		navigation.bringToFront(MainConfig.Home)
+		scope.launch {
+			runOnMain {
+				navigation.bringToFront(MainConfig.Home)
+			}
+		}
 	}
 	
 	override fun onProfileTabSelected() {
-		navigation.bringToFront(MainConfig.Profile)
+		scope.launch {
+			runOnMain {
+				navigation.bringToFront(MainConfig.Profile)
+			}
+		}
+	}
+	
+	override fun onWishTabSelected() {
+		scope.launch {
+			runOnMain {
+				navigation.bringToFront(MainConfig.Wish)
+			}
+		}
 	}
 	
 	private sealed interface MainConfig : Parcelable {
@@ -65,5 +101,8 @@ class MainComponent(componentContext: ComponentContext, val rootComponent: Root)
 		
 		@Parcelize
 		object Profile : MainConfig
+		
+		@Parcelize
+		object Wish: MainConfig
 	}
 }

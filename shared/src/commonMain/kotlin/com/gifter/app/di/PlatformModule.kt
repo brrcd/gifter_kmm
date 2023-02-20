@@ -7,7 +7,9 @@ import org.kodein.di.bind
 import org.kodein.di.direct
 import org.kodein.di.instance
 import org.kodein.di.singleton
+import kotlin.native.concurrent.ThreadLocal
 
+@ThreadLocal
 object PlatformModule {
 	
 	private var _di: DirectDI? = null
@@ -25,7 +27,7 @@ object PlatformModule {
 		}.direct
 	}
 	
-	inline fun <reified T> instance(): T {
+	inline fun <reified T> diInstance(): T {
 		return di.instance()
 	}
 }

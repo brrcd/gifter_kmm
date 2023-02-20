@@ -2,20 +2,20 @@ package com.gifter.app.component
 
 import com.gifter.app.data.remote.RequestResult
 
-abstract class BaseChildComponent {
-	abstract val onLoading: (Boolean) -> Unit
-	abstract val onError: (RequestResult.Error) -> Unit
-	abstract val navigation: BaseNavigation
+interface BaseChildComponent {
+	val onLoading: (Boolean) -> Unit
+	val onError: (RequestResult.Error) -> Unit
+	val navigation: BaseNavigation
 	
-	fun showLoading(){
+	fun showLoading() {
 		onLoading.invoke(true)
 	}
 	
-	fun hideLoading(){
+	fun hideLoading() {
 		onLoading.invoke(false)
 	}
 	
-	fun displayError(error: RequestResult.Error){
+	fun displayError(error: RequestResult.Error) {
 		onError.invoke(error)
 	}
 }

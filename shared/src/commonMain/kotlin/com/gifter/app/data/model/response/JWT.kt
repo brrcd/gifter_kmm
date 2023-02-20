@@ -4,5 +4,6 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data class JWT(
-	val token: String
+	val authToken: String = "",
+	val registrationToken: String = ""
 )

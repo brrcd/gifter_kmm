@@ -34,7 +34,7 @@ kotlin {
                 implementation(Deps.Coroutines.core)
                 implementation(Deps.Kodein.core)
                 implementation(Deps.SqlDelight.core)
-                implementation(Deps.MVIKotlin.mviKotlin)
+//                implementation(Deps.MVIKotlin.mviKotlin)
                 implementation(Deps.Decompose.decompose)
                 implementation(Deps.Settings.core)
                 implementation(Deps.Settings.noArgs)

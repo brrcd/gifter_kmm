@@ -41,6 +41,7 @@ class RemoteSourceModule: DIModule {
 							isLenient = true
 							ignoreUnknownKeys = true
 							prettyPrint = true
+							useDefaultTransformers = true
 						}
 					)
 				}
@@ -54,7 +55,11 @@ class RemoteSourceModule: DIModule {
 					url(BACK_END_URL)
 					contentType(ContentType.Application.Json)
 					accept(ContentType.Application.Json)
-					bearerAuth(instance<DeviceSettings>().jwt)
+					bearerAuth(
+						instance<DeviceSettings>().authToken.ifEmpty {
+							instance<DeviceSettings>().registrationToken
+						}
+					)
 				}
 			}
 		}
