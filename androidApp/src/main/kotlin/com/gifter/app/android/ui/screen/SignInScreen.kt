@@ -27,7 +27,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import com.gifter.app.android.BuildConfig
 import com.gifter.app.android.findActivity
-import com.gifter.app.component.signin.SignInComponent
+import com.gifter.component.signin.SignInComponent
 import com.google.android.gms.auth.api.identity.BeginSignInRequest
 import com.google.android.gms.auth.api.identity.Identity
 import com.google.android.gms.auth.api.identity.SignInClient

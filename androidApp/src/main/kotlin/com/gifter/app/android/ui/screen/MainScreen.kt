@@ -16,10 +16,8 @@ import androidx.compose.ui.Modifier
 import com.arkivanov.decompose.ExperimentalDecomposeApi
 import com.arkivanov.decompose.extensions.compose.jetbrains.stack.Children
 import com.arkivanov.decompose.extensions.compose.jetbrains.subscribeAsState
-import com.arkivanov.decompose.router.stack.childStack
-import com.gifter.app.component.main.Main
-import com.gifter.app.component.main.MainComponent
-import com.gifter.app.component.root.Root
+import com.gifter.component.main.Main
+import com.gifter.component.main.MainComponent
 
 @OptIn(ExperimentalDecomposeApi::class)
 @Composable

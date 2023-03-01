@@ -61,7 +61,9 @@ android {
 }
 
 dependencies {
-    implementation(project(":shared"))
+    implementation(project(":component"))
+    implementation(project(":data"))
+    implementation(project(":di"))
     
     implementation(Deps.Compose.core)
     implementation(Deps.Compose.foundation)

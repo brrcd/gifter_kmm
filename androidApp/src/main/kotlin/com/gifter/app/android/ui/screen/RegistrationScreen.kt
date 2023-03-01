@@ -15,7 +15,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import com.gifter.app.component.registration.RegistrationComponent
+import com.gifter.component.registration.RegistrationComponent
 
 @Composable
 fun RegistrationScreen(

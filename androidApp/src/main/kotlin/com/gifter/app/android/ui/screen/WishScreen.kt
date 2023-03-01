@@ -13,8 +13,8 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import com.gifter.app.component.wish.WishComponent
-import com.gifter.app.data.model.response.Wish
+import com.gifter.component.wish.WishComponent
+import com.gifter.data.model.response.Wish
 
 @Composable
 fun WishScreen(

@@ -10,8 +10,8 @@ import com.arkivanov.decompose.extensions.compose.jetbrains.stack.Children
 import com.arkivanov.decompose.extensions.compose.jetbrains.subscribeAsState
 import com.gifter.app.android.ui.component.CircularLoading
 import com.gifter.app.android.ui.component.InfoPopup
-import com.gifter.app.component.root.Root
-import com.gifter.app.component.root.Root.Child
+import com.gifter.component.root.Root
+import com.gifter.component.root.Root.Child
 
 @OptIn(ExperimentalDecomposeApi::class)
 @Composable

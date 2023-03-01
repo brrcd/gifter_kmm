@@ -12,3 +12,6 @@ keystore.jks
 keystore.properties
 google_oauth.properties
 shared/src/commonMain/kotlin/com/gifter/app/util
+/component/src/commonMain/kotlin/com/gifter/component/util/
+/data/src/commonMain/kotlin/com/gifter/data/util/
+/di/src/commonMain/kotlin/com/gifter/di/util/

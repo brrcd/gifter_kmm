@@ -7,8 +7,7 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.node.modifierElementOf
-import com.gifter.app.component.profile.ProfileComponent
+import com.gifter.component.profile.ProfileComponent
 
 @Composable
 fun ProfileScreen(

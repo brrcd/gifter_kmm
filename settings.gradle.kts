@@ -15,4 +15,6 @@ dependencyResolutionManagement {
 
 rootProject.name = "Gifter"
 include(":androidApp")
-include(":shared")
+include(":data")
+include(":di")
+include(":component")
