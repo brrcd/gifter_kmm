@@ -31,7 +31,6 @@ kotlin {
                 implementation(Deps.SqlDelight.core)
                 implementation(Deps.Settings.core)
                 implementation(Deps.Settings.noArgs)
-                implementation(Deps.Kodein.core)
             }
         }
         val androidMain by getting {

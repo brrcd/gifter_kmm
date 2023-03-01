@@ -1,9 +1,9 @@
 package com.gifter.data
 
+import com.gifter.data.local.LocalSource
 import com.gifter.data.model.response.JWT
 import com.gifter.data.model.response.User
 import com.gifter.data.model.response.Wish
-import com.gifter.data.local.LocalSource
 import com.gifter.data.remote.RemoteSource
 import com.gifter.data.remote.RequestResult
 
@@ -40,7 +40,7 @@ class RepositoryImpl(
 	
 	override fun getAuthToken(): String = localSource.getAuthToken()
 	
-	override fun getRegistrationToken(): String  = localSource.getRegistrationToken()
+	override fun getRegistrationToken(): String = localSource.getRegistrationToken()
 	
 	override fun clearSettings() = localSource.clearSettings()
 	

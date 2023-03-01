@@ -3,9 +3,8 @@ package com.gifter.component.signin
 import com.arkivanov.decompose.ComponentContext
 import com.gifter.component.BaseChildComponent
 import com.gifter.component.coroutineScope
-import com.gifter.data.Repository
 import com.gifter.data.remote.RequestResult
-import com.gifter.di.module.PlatformModule.diInstance
+import com.gifter.di.module.ServiceContainer
 import kotlinx.coroutines.launch
 
 class SignInComponent(
@@ -16,7 +15,7 @@ class SignInComponent(
 ) : BaseChildComponent, ComponentContext by componentContext {
 	
 	private val scope = coroutineScope()
-	private val repository = diInstance<Repository>()
+	private val repository = ServiceContainer.repository
 	
 	fun verifyToken(token: String) {
 		scope.launch {

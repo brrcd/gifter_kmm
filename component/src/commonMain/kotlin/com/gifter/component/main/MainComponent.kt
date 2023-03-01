@@ -17,8 +17,7 @@ import com.gifter.component.root.Root
 import com.gifter.component.runOnMain
 import com.gifter.component.wish.WishComponent
 import com.gifter.component.wish.WishNavigation
-import com.gifter.data.Repository
-import com.gifter.di.module.PlatformModule.diInstance
+import com.gifter.di.module.ServiceContainer
 import kotlinx.coroutines.launch
 
 class MainComponent(componentContext: ComponentContext, val rootComponent: Root) : Main,
@@ -26,7 +25,7 @@ class MainComponent(componentContext: ComponentContext, val rootComponent: Root)
 	
 	private val navigation = StackNavigation<MainConfig>()
 	
-	private val repository = diInstance<Repository>()
+	private val repository = ServiceContainer.repository
 	
 	private val scope = coroutineScope()
 	

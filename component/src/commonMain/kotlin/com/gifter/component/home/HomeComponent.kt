@@ -9,7 +9,7 @@ import com.gifter.component.runOnMain
 import com.gifter.data.Repository
 import com.gifter.data.model.response.User
 import com.gifter.data.remote.RequestResult
-import com.gifter.di.module.PlatformModule
+import com.gifter.di.module.ServiceContainer
 import kotlinx.coroutines.launch
 
 class HomeComponent(
@@ -21,7 +21,7 @@ class HomeComponent(
 	
 	private val scope = coroutineScope()
 	
-	private val repository: Repository = PlatformModule.diInstance()
+	private val repository: Repository = ServiceContainer.repository
 	
 	private val _user = MutableValue(User("",""))
 	val user: Value<User> get() = _user

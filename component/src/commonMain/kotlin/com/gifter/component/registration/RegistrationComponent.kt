@@ -3,9 +3,8 @@ package com.gifter.component.registration
 import com.arkivanov.decompose.ComponentContext
 import com.gifter.component.BaseChildComponent
 import com.gifter.component.coroutineScope
-import com.gifter.data.Repository
 import com.gifter.data.remote.RequestResult
-import com.gifter.di.module.PlatformModule.diInstance
+import com.gifter.di.module.ServiceContainer
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 
@@ -18,7 +17,7 @@ class RegistrationComponent(
 	
 	private val scope: CoroutineScope = coroutineScope()
 	
-	private val repository = diInstance<Repository>()
+	private val repository = ServiceContainer.repository
 	
 	fun registerUser(id: String, name: String) {
 		scope.launch {

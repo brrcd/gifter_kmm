@@ -17,8 +17,7 @@ import com.gifter.component.root.Root.Child
 import com.gifter.component.runOnMain
 import com.gifter.component.signin.SignInComponent
 import com.gifter.component.signin.SignInNavigation
-import com.gifter.data.Repository
-import com.gifter.di.module.PlatformModule.diInstance
+import com.gifter.di.module.ServiceContainer
 import kotlinx.coroutines.launch
 
 class RootComponent constructor(
@@ -27,7 +26,7 @@ class RootComponent constructor(
 
 	private val navigation = StackNavigation<Configuration>()
 	
-	private val repository = diInstance<Repository>()
+	private val repository = ServiceContainer.repository
 	
 	private val scope = coroutineScope()
 	

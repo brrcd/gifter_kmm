@@ -6,7 +6,7 @@ import com.gifter.component.coroutineScope
 import com.gifter.data.Repository
 import com.gifter.data.model.response.Wish
 import com.gifter.data.remote.RequestResult
-import com.gifter.di.module.PlatformModule.diInstance
+import com.gifter.di.module.ServiceContainer
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
@@ -19,7 +19,7 @@ class WishComponent(
 ) : BaseChildComponent, ComponentContext by componentContext {
 	
 	private val scope = coroutineScope()
-	private val repository: Repository = diInstance()
+	private val repository: Repository = ServiceContainer.repository
 	
 	private val _wishesList = MutableStateFlow(listOf<Wish>())
 	val wishesList: StateFlow<List<Wish>> get() = _wishesList

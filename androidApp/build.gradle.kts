@@ -85,8 +85,4 @@ dependencies {
     
     implementation(Deps.Kotlin.serialization)
     implementation(Deps.Coroutines.android)
-    
-    implementation(Deps.Kodein.android)
-    implementation(Deps.Kodein.core)
-	implementation("androidx.core:core-ktx:+")
 }
